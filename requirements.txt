@@ -1,0 +1,8 @@
+pandas==2.0.3
+python-dotenv==1.0.1
+qdrant_client
+Requests==2.32.3
+streamlit
+pypdf==4.3.1
+ipykernel
+python_dateutil==2.8.2
