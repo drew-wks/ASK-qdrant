@@ -33,6 +33,44 @@ def check_directory_exists(directory_path, create_if_not_exists=False):
 
 
 
+def check_duplicates_in_xlsx(metadata_file_path, cols):
+    """
+    Function to check for duplicates in specified columns of an Excel file.
+    
+    Args:
+        metadata_file_path (str): The path to the Excel file containing metadata.
+        cols (list): List of columns to check for duplicates.
+    
+    Example usage:
+        metadata_file_path = "./docs/metadata/metadata.xlsx"
+        cols = ['title', 'publication_number', 'document_id', 'file_name']
+        
+        check_duplicates_in_xlsx(metadata_file_path, cols)
+    
+    Returns:
+        None
+    """
+    try:
+        # Read the Excel file into a DataFrame
+        df = pd.read_excel(metadata_file_path)
+
+        # Iterate over each column and check for duplicates
+        for column in cols:
+            if column in df.columns:
+                # Drop rows with NaN values before checking for duplicates
+                non_null_df = df.dropna(subset=[column])
+                duplicates = non_null_df[non_null_df.duplicated(subset=column, keep=False)]
+
+                if not duplicates.empty:
+                    print(f"Duplicate found in '{column}':")
+                    print(duplicates[[column]])
+                else:
+                    print(f"No duplicates in '{column}'.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+
 def compute_doc_id(pdf_path):
     '''
     Generates a unique ID from the content of the PDF file.
