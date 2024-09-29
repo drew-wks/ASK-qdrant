@@ -76,7 +76,9 @@ def compute_doc_id(pdf_path):
     Generates a unique ID from the content of the PDF file.
 
     The function extracts text from all pages of the PDF--ignoring metadata-- and 
-    generates a unique ID using UUID v5, example:  3b845a10-cb3a-5014-96d8-360c8f1bf63f 
+    generates a unique ID that is deterministic using UUID v5, so the same content
+    will always geenreate the same ID
+    example ID:  3b845a10-cb3a-5014-96d8-360c8f1bf63f 
     If the document is empty, then it sets the UUID to "EMPTY_DOCUMENT". 
     
     Args:
