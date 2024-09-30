@@ -71,7 +71,7 @@ def check_duplicates_in_xlsx(metadata_file_path, cols):
 
 
 
-def compute_doc_id(pdf_path):
+def compute_pdf_id(pdf_path):
     '''
     Generates a unique ID from the content of the PDF file.
 
@@ -88,7 +88,7 @@ def compute_doc_id(pdf_path):
         str: UUID for the PDF content or "EMPTY_DOCUMENT" if the PDF is empty.
     '''
 
-    reader = PdfReader(download_folder)
+    reader = PdfReader(pdf_path)
     num_pages = len(reader.pages)
 
     # Extract text from all pages and concatenate
@@ -105,7 +105,23 @@ def compute_doc_id(pdf_path):
         return "EMPTY_DOCUMENT"
 
     namespace = uuid.NAMESPACE_DNS
-    doc_uuid = uuid.uuid5(namespace, full_text)
+    pdf_uuid = uuid.uuid5(namespace, full_text)
 
-    return doc_uuid
+    return pdf_uuid
 
+
+
+def check_qdrant_record_exists(record_id, qdrant, pdfs_collection_name):
+    try:
+        result = qdrant.retrieve(
+            collection_name=pdfs_collection_name,
+            ids=[record_id],  
+            with_payload=False,
+        )
+        if result:
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(f"Error occurred while checking record existence for ID {record_id}: {e}")
+        return False
