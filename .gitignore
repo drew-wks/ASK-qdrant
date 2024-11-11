@@ -13,6 +13,9 @@ ENV/
 env.bak/
 venv*.bak/
 
+# VS Code
+.vscode/settings.json
+
 
 # Personal Docs
 .DS_Store
@@ -20,6 +23,9 @@ local/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Folders of PDFs
+*pdfs*/
 
 
 # Distribution / packaging
